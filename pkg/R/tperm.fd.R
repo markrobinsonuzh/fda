@@ -33,30 +33,30 @@ tperm.fd <- function(x1fd,x2fd,nperm=200,q=0.05,argvals=NULL,plotres=TRUE,...) #
     for(i in 1:nperm){
         tXmat = Xmat[,sample(n1+n2)]
 
-        tmean1 = apply(tXmat[,1:n1],1,mean)
-        tmean2 = apply(tXmat[,n1+(1:n2)],1,mean)
+        tmean1 = rowMeans(tXmat[,1:n1])
+        tmean2 = rowMeans(tXmat[,n1+(1:n2)])
 
-        tvar1 = apply(tXmat[,1:n1],1,var)/n1
-        tvar2 = apply(tXmat[,n1+(1:n2)],1,var)/n2
+        tvar1 = rowVars(tXmat[,1:n1])/n1
+        tvar2 = rowVars(tXmat[,n1+(1:n2)])/n2
 
         Tnullvals[,i] = abs(tmean1-tmean2)/sqrt(tvar1+tvar2)
         Tnull[i] = max(Tnullvals[,i])
     }
 
-    mean1 = apply(Xmat[,1:n1],1,mean)
-    mean2 = apply(Xmat[,n1+(1:n2)],1,mean)
+    mean1 = rowMeans(Xmat[,1:n1])
+    mean2 = rowMeans(Xmat[,n1+(1:n2)])
 
-    var1 = apply(Xmat[,1:n1],1,var)/n1
-    var2 = apply(Xmat[,n1+(1:n2)],1,var)/n2
+    var1 = rowVars(Xmat[,1:n1])/n1
+    var2 = rowVars(Xmat[,n1+(1:n2)])/n2
 
     Tvals = abs(mean1-mean2)/sqrt(var1+var2)
     Tobs = max(Tvals)
 
-    pval = mean( Tobs < Tnull )
-    qval = quantile(Tnull,q)
+    pval = mean(Tobs < Tnull)
+    qval = quantile(Tnull, q)
 
-    pvals.pts = apply(Tvals<Tnullvals,1,mean)
-    qvals.pts = apply(Tnullvals,1,quantile,q)
+    pvals.pts = rowMeans(Tvals < Tnullvals)
+    qvals.pts = rowQuantiles(Tnullvals, probs=q)
 
     if(plotres){
 
