@@ -150,6 +150,7 @@ importFrom("stats", "approx", "coef", "cov", "deriv", "dist", "fitted",
              "model.matrix", "na.fail", "na.pass", "optimize", "predict",
              "predict.lm", "quantile", "terms", "var")
 importFrom("utils", "read.table")
+importFrom("matrixStats", "rowVars", "rowQuantiles")
 
 #import(DierckxSpline)
 #import(zoo)
